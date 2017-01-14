@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 /**
  * Polina branch: test branches!
+ * Polina got it!
  */
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_daily"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Daily photos"/>
+        <item
+            android:id="@+id/nav_mars"
+            android:icon="@drawable/ic_brightness_1_black_24dp"
+            android:title="Mars rovers photos"/>
+    </group>
+
+    <item android:title="System">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Settings"/>
+            <item
+                android:id="@+id/nav_exit"
+                android:icon="@drawable/ic_settings_power_black_24dp"
+                android:title="Exit"/>
+        </menu>
+    </item>
+
+</menu>

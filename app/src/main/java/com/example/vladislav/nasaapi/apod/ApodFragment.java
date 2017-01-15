@@ -77,6 +77,12 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(apodReceiver);
+    }
+
+    @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "this is frag onReceive");
         if (intent.getExtras()!= null){

@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.vladislav.nasaapi.apod.ApodFragment;
@@ -23,10 +24,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     NavigationView navigationView;
 
+    private String title = "Daily photo";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,18 +44,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment fragment = null;
-        Class fragmentClass = ApodFragment.class;
-
-        try{
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        if (savedInstanceState == null){
+            drawer.openDrawer(GravityCompat.START);
+        }else {
+            setTitle(savedInstanceState.getString("title", "ProjectStars"));
         }
 
-        replaceFragment(fragment, "Daily photo");
     }
 
     @Override
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_exit:
                 finish();
-                break;
+                return false;
         }
 
         try{
@@ -107,5 +105,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         setTitle(title);
+        this.title = title;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("title", title);
+        super.onSaveInstanceState(outState);
     }
 }

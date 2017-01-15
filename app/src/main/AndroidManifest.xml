@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="NASAapi"
+            android:label="ProjectStars"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>

@@ -18,7 +18,7 @@ import com.example.vladislav.nasaapi.apod.ApodFragment;
 import com.example.vladislav.nasaapi.mars.RoversFragment;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChangeFragmentListener{
 
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -112,5 +112,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("title", title);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void changeFragment(Class fragmentClass, Bundle arguments) {
+        Fragment fragment = null;
+
+        try{
+            fragment = (Fragment) fragmentClass.newInstance();
+        }catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        fragment.setArguments(arguments);
+
+        replaceFragment(fragment, this.title);
     }
 }

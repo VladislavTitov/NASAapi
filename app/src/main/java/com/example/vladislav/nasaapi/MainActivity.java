@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.vladislav.nasaapi.apod.ApodFragment;
@@ -23,11 +24,13 @@ import com.example.vladislav.nasaapi.settings.SettingsFragment;
 import com.example.vladislav.nasaapi.mars.RoversFragment;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ChangeFragmentListener{
 
     Toolbar toolbar;
     DrawerLayout drawer;
     NavigationView navigationView;
+
+    private String title = "Daily photo";
 
 
     @Override
@@ -48,22 +51,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        Fragment fragment = null;
-        Class fragmentClass = ApodFragment.class;
-
-        try{
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        replaceFragment(fragment, "Daily photo");
-
-
         Music.getInstance().start(this);
+        
+        if (savedInstanceState == null){
+            drawer.openDrawer(GravityCompat.START);
+        }else {
+            setTitle(savedInstanceState.getString("title", "ProjectStars"));
+        }
 
     }
 
@@ -99,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_exit:
                 finish();
-                break;
+                return false;
         }
 
         try{
@@ -122,6 +116,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         setTitle(title);
+        this.title = title;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("title", title);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void changeFragment(Class fragmentClass, Bundle arguments) {
+        Fragment fragment = null;
+
+        try{
+            fragment = (Fragment) fragmentClass.newInstance();
+        }catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        fragment.setArguments(arguments);
+
+        replaceFragment(fragment, this.title);
     }
 
 

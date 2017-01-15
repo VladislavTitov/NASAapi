@@ -4,11 +4,11 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.preference.PreferenceActivity;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.vladislav.nasaapi.apod.ApodFragment;
+import com.example.vladislav.nasaapi.settings.Music;
+import com.example.vladislav.nasaapi.settings.SettingsFragment;
 
 /**
  * Elvira branch: test branches!
@@ -30,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     NavigationView navigationView;
 
-    static MediaPlayer mp;
-    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-
-
-
         Fragment fragment = null;
         Class fragmentClass = ApodFragment.class;
 
@@ -70,27 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         replaceFragment(fragment, "Daily photo");
 
 
-
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mp = MediaPlayer.create(this, R.raw.ktr);
-        mp.setLooping(true);
-        mp.setVolume(100, 100);
-        mp.start();
-/*        if (!sharedPreferences.getBoolean("sp_volume", false)){
-            mp.pause();
-        }*/
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                if (s.equals("sp_volume")){
-                    if (!sharedPreferences.getBoolean("sp_volume", false)){
-                        mp.pause();
-                    }else{
-                        mp.start();
-                    }
-                }
-            }
-        });
+        Music.getInstance().start(this);
 
     }
 
@@ -120,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Snackbar.make(drawer, "It's mars rovers photos!", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.nav_settings:
+                fragmentClass = SettingsFragment.class;
                 Snackbar.make(drawer, "It's settings!", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.nav_exit:
@@ -141,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void replaceFragment(Fragment fragment, String title){
-        FragmentManager manager = getSupportFragmentManager();
+        FragmentManager manager = getFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.apod_container, fragment, fragment.getClass().getName())
                 .commit();
@@ -149,13 +126,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setTitle(title);
     }
 
+
+
     @Override
     protected void onDestroy() {
-        mp.stop();
-        mp.release();
         super.onDestroy();
+        Music.getInstance().stop();
     }
-
-
 }
 

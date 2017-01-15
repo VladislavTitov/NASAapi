@@ -8,15 +8,17 @@
         <item
             style="@style/itemStyle"
             android:id="@+id/nav_daily"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_observation"
             android:title="Daily photos"
             android:checked="true"/>
+
         <item
             style="@style/itemStyle"
             android:id="@+id/nav_mars"
-            android:icon="@drawable/ic_brightness_1_black_24dp"
+            android:icon="@drawable/ic_planet_11"
             android:title="Mars rovers photos"
             />
+
     </group>
 
     <item
@@ -27,9 +29,10 @@
             <item
                 style="@style/itemStyle"
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_computer"
                 android:title="Settings"
                 />
+
             <item
                 style="@style/itemStyle"
                 android:id="@+id/nav_exit"

@@ -16,10 +16,6 @@ import android.view.MenuItem;
 import com.example.vladislav.nasaapi.apod.ApodFragment;
 import com.example.vladislav.nasaapi.mars.RoversFragment;
 
-/**
- * Elvira branch: test branches!
- * Elvira got it!
- */
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 

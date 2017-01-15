@@ -1,5 +1,9 @@
 package com.example.vladislav.nasaapi;
 
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceActivity;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -26,10 +30,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     NavigationView navigationView;
 
+    static MediaPlayer mp;
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+
+
+
         Fragment fragment = null;
         Class fragmentClass = ApodFragment.class;
 
@@ -55,7 +68,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         replaceFragment(fragment, "Daily photo");
+
+
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mp = MediaPlayer.create(this, R.raw.ktr);
+        mp.setLooping(true);
+        mp.setVolume(100, 100);
+        mp.start();
+/*        if (!sharedPreferences.getBoolean("sp_volume", false)){
+            mp.pause();
+        }*/
+        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                if (s.equals("sp_volume")){
+                    if (!sharedPreferences.getBoolean("sp_volume", false)){
+                        mp.pause();
+                    }else{
+                        mp.start();
+                    }
+                }
+            }
+        });
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -110,4 +148,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setTitle(title);
     }
+
+    @Override
+    protected void onDestroy() {
+        mp.stop();
+        mp.release();
+        super.onDestroy();
+    }
+
+
 }
+

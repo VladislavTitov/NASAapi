@@ -19,12 +19,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="45dp"/>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_marginTop="76dp"
-        android:layout_width="300dp"
-        android:layout_height="210dp"
-        android:src="@drawable/splash"
-        android:layout_centerHorizontal="true"
-        />
+
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:id="@+id/profile_image"-->
+        <!--android:layout_marginTop="100dp"-->
+        <!--android:layout_width="250dp"-->
+        <!--android:layout_height="250dp"-->
+        <!--android:src="@drawable/example"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true"/>-->
 </RelativeLayout>

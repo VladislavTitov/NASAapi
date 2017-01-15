@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/apod_fragment"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -10,34 +9,37 @@
 
     <TextView
 
+        android:theme="@style/titleStyle"
         android:id="@+id/date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="15.01.2017"
+        android:text="dfdsfdsf"
         android:gravity="center"
-        android:textColor="@color/text"
         android:layout_margin="3dp"
         />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/photo"
         android:src="@drawable/space"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
 
         />
 
     <TextView
+        android:theme="@style/titleStyle"
         android:id="@+id/copyright"
-        android:textColor="@color/text"
         android:layout_margin="10dp"
+        android:text="fwewefewfef"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
 
     <ScrollView
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
@@ -50,7 +52,7 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/title"
-                android:textColor="@color/text"
+                android:theme="@style/titleStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
@@ -59,12 +61,11 @@
             <TextView
 
                 android:id="@+id/explanation"
-                android:textColor="@color/text"
+                android:theme="@style/itemStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:gravity="center"
-                android:textSize="18sp"/>
+                android:textSize="15sp"/>
 
 
         </LinearLayout>

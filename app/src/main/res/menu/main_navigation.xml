@@ -9,7 +9,8 @@
             style="@style/itemStyle"
             android:id="@+id/nav_daily"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Daily photos"/>
+            android:title="Daily photos"
+            android:checked="true"/>
         <item
             style="@style/itemStyle"
             android:id="@+id/nav_mars"

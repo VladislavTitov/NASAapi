@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.vladislav.nasaapi.apod.ApodFragment;
+import com.example.vladislav.nasaapi.mars.RoversFragment;
 
 /**
  * Elvira branch: test branches!
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Snackbar.make(drawer, "It's daily photo!", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.nav_mars:
+                fragmentClass = RoversFragment.class;
                 Snackbar.make(drawer, "It's mars rovers photos!", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.nav_settings:

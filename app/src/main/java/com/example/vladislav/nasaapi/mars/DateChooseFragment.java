@@ -76,6 +76,17 @@ public class DateChooseFragment extends Fragment {
         tvDateStartMission = (TextView) view.findViewById(R.id.tv_date_start_mission);
         tvDateFinishMission = (TextView) view.findViewById(R.id.tv_date_finish_mission);
 
+        if (rover.equals("curiosity")){
+            tvDateStartMission.setText("2012-08-06");
+            tvDateFinishMission.setText("now");
+        }else if (rover.equals("opportunity")){
+            tvDateStartMission.setText("2004-01-25");
+            tvDateFinishMission.setText("now");
+        }else if (rover.equals("spirit")){
+            tvDateStartMission.setText("2004-01-04");
+            tvDateFinishMission.setText("2010-03-21");
+        }
+
         btnDateChoose = (ImageView) view.findViewById(R.id.btn_date_choose);
         btnDateChoose.setOnClickListener(new View.OnClickListener() {
             @Override

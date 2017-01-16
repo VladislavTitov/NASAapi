@@ -2,8 +2,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <SwitchPreference
+        android:textColor="@color/text"
+        android:textSize="30dp"
         android:key="sp_volume"
         android:title="Volume"
-        android:defaultValue="true"/>
+        android:defaultValue="true"
+        />
 
 </PreferenceScreen>

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.vladislav.nasaapi.R;
 import com.example.vladislav.nasaapi.apod.services.ApodIntentService;
 import com.example.vladislav.nasaapi.apod.services.ApodIntentServiceResult;
@@ -91,9 +92,15 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
             title.setText(intent.getStringExtra("title"));
             explanation.setText(intent.getStringExtra("explanation"));
 
-            Picasso.with(getActivity())
+            /*Picasso.with(getActivity())
                     .load(intent.getStringExtra("photo"))
                     .error( R.drawable.space)
+                    .into(photo);*/
+
+            Glide
+                    .with(getActivity())
+                    .load(intent.getStringExtra("photo"))
+                    .error(R.drawable.space)
                     .into(photo);
         }
 

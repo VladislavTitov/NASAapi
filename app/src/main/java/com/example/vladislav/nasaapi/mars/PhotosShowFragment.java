@@ -1,6 +1,7 @@
 package com.example.vladislav.nasaapi.mars;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,15 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.vladislav.nasaapi.R;
+import com.example.vladislav.nasaapi.mars.pojo.Photo;
+import com.example.vladislav.nasaapi.mars.pojo.PhotosKeeper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Vladislav on 16.01.2017.
  */
 
-public class PhotosShowFragment extends Fragment {
+public class PhotosShowFragment extends Fragment implements PhotosShowCallback{
 
     RecyclerView photos;
+    PhotosAdapter adapter;
 
     String rover;
     String date;
@@ -47,14 +55,59 @@ public class PhotosShowFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         photos = (RecyclerView) view.findViewById(R.id.photos);
-        PhotosAdapter adapter = new PhotosAdapter();
-        //TODO add setter in adapter
-
+        adapter = new PhotosAdapter();
+        if (savedInstanceState == null) {
+            getPhotosGetFragment();
+        }else {
+            getPhotosGetFragment().startTask();
+        }
         photos.setAdapter(adapter);
         photos.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+    }
+
+    @Override
+    public void putPhotos(PhotosKeeper keeper) {
+        adapter.setKeeper(keeper);
+    }
+
+    private PhotosGetFragment getPhotosGetFragment(){
+        FragmentManager manager = getFragmentManager();
+        PhotosGetFragment fragment = (PhotosGetFragment) manager.findFragmentByTag(PhotosGetFragment.class.getName());
+
+        if (fragment == null){
+            fragment = new PhotosGetFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("rover", rover);
+            bundle.putString("date", date);
+            fragment.setArguments(bundle);
+
+            manager.beginTransaction()
+                    .add(fragment, fragment.getClass().getName())
+                    .commit();
+        }
+
+        return fragment;
     }
 
     public class PhotosAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+        PhotosKeeper keeper;
+        List<Photo> list;
+
+        public PhotosAdapter() {
+            list = new ArrayList<>();
+        }
+
+        public void setKeeper(PhotosKeeper keeper) {
+            if (keeper != null) {
+                this.keeper = keeper;
+                list = keeper.getPhotos();
+            }else {
+                list = new ArrayList<>();
+            }
+            notifyDataSetChanged();
+        }
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,12 +117,17 @@ public class PhotosShowFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+            if (holder instanceof PhotoHolder){
+                Glide
+                        .with(getActivity())
+                        .load(list.get(position).getImgSrc())
+                        .into(((PhotoHolder) holder).getPhoto());
+            }
         }
 
         @Override
         public int getItemCount() {
-            return 0;
+            return list.size();
         }
     }
 

@@ -9,6 +9,7 @@ import com.example.vladislav.nasaapi.apod.ApodService;
 import com.example.vladislav.nasaapi.apod.pojo.ApodPojo;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -41,7 +42,21 @@ public class ApodIntentService extends IntentService {
 
             Response<ApodPojo> response = apodPojoCall.execute();
 
-            apodPojo = response.body();
+            if (response.isSuccessful()) {
+                apodPojo = response.body();
+            }else {
+                apodPojo = new ApodPojo();
+
+                long date = System.currentTimeMillis();
+                SimpleDateFormat sdf = new SimpleDateFormat("MMM MM dd");
+                String dateString = sdf.format(date);
+                apodPojo.setDate(dateString);
+
+                apodPojo.setUrl("");
+                apodPojo.setTitle("Error!");
+                apodPojo.setExplanation("Perhaps you are disconnected Internet!");
+                apodPojo.setCopyright("");
+            }
 
         }catch (IOException e){
             e.printStackTrace();

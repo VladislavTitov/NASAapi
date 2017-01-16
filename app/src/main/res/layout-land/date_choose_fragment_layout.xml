@@ -86,6 +86,7 @@
 
     </LinearLayout>
     <TextView
+        android:id="@+id/btn_show_photos"
         android:theme="@style/itemStyle"
         android:textSize="25dp"
         android:layout_gravity="center"

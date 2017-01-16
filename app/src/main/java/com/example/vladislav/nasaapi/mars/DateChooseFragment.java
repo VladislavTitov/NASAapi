@@ -3,12 +3,13 @@ package com.example.vladislav.nasaapi.mars;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vladislav.nasaapi.R;
@@ -22,8 +23,9 @@ public class DateChooseFragment extends Fragment {
     TextView tvDateShow;
     TextView tvDateStartMission;
     TextView tvDateFinishMission;
+    TextView btnShowPhotos;
 
-    Button btnDateChoose;
+    ImageView btnDateChoose;
 
     private int year, month, day;
 
@@ -46,11 +48,19 @@ public class DateChooseFragment extends Fragment {
         tvDateStartMission = (TextView) view.findViewById(R.id.tv_date_start_mission);
         tvDateFinishMission = (TextView) view.findViewById(R.id.tv_date_finish_mission);
 
-        btnDateChoose = (Button) view.findViewById(R.id.btn_date_choose);
+        btnDateChoose = (ImageView) view.findViewById(R.id.btn_date_choose);
         btnDateChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callDatePicker();
+            }
+        });
+
+        btnShowPhotos = (TextView) view.findViewById(R.id.btn_show_photos);
+        btnShowPhotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
@@ -63,7 +73,7 @@ public class DateChooseFragment extends Fragment {
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                getContext(), new DatePickerDialog.OnDateSetListener() {
+                getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String date = year + "-" + month + "-" + dayOfMonth;

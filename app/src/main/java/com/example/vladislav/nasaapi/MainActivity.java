@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         Music.getInstance().start(this);
-        
+
         if (savedInstanceState == null){
             drawer.openDrawer(GravityCompat.START);
         }else {

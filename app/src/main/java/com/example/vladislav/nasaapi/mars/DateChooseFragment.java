@@ -1,9 +1,12 @@
 package com.example.vladislav.nasaapi.mars;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.example.vladislav.nasaapi.ChangeFragmentListener;
 import com.example.vladislav.nasaapi.R;
 
 import java.util.Calendar;
@@ -24,12 +28,38 @@ public class DateChooseFragment extends Fragment {
     TextView tvDateFinishMission;
 
     Button btnDateChoose;
+    Button btnShowPhotos;
 
     private int year, month, day;
+
+    ChangeFragmentListener changeFragmentListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        attachListener(context);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        attachListener(activity);
+    }
+
+    private void attachListener(@NonNull Context context){
+        if (context instanceof ChangeFragmentListener) {
+            changeFragmentListener = (ChangeFragmentListener) context;
+        }else {
+            throw new IllegalStateException("MainActivity must implements ChangeFragmentListener");
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null && getArguments().getString("rover") != null){
+            rover = getArguments().getString("rover");
+        }
     }
 
     @Nullable
@@ -54,6 +84,18 @@ public class DateChooseFragment extends Fragment {
             }
         });
 
+        btnShowPhotos = (Button) view.findViewById(R.id.btn_show_photos);
+        btnShowPhotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Class fragmentClass = PhotosShowFragment.class;
+                Bundle args = new Bundle();
+                args.putString("rover", rover);
+                args.putString("date", tvDateShow.getText().toString());
+                changeFragmentListener.changeFragment(fragmentClass, args);
+            }
+        });
+
     }
 
     private void callDatePicker(){
@@ -63,15 +105,21 @@ public class DateChooseFragment extends Fragment {
         day = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                getContext(), new DatePickerDialog.OnDateSetListener() {
+                getActivity(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String date = year + "-" + month + "-" + dayOfMonth;
+                String date = year + "-" + (month + 1)+ "-" + dayOfMonth;
                 tvDateShow.setText(date);
             }
         }, year, month, day);
 
         datePickerDialog.show();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        changeFragmentListener = null;
     }
 
 }

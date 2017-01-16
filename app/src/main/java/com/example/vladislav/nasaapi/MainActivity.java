@@ -1,5 +1,9 @@
 package com.example.vladislav.nasaapi;
 
+/*import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
+import android.preference.PreferenceActivity;*/
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -15,6 +19,8 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.vladislav.nasaapi.apod.ApodFragment;
+import com.example.vladislav.nasaapi.settings.Music;
+import com.example.vladislav.nasaapi.settings.SettingsFragment;
 import com.example.vladislav.nasaapi.mars.RoversFragment;
 
 
@@ -25,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
 
     private String title = "Daily photo";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView) findViewById(R.id.main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Music.getInstance().start(this);
+
         if (savedInstanceState == null){
             drawer.openDrawer(GravityCompat.START);
         }else {
@@ -51,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -78,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Snackbar.make(drawer, "It's mars rovers photos!", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.nav_settings:
+                fragmentClass = SettingsFragment.class;
                 Snackbar.make(drawer, "It's settings!", Snackbar.LENGTH_SHORT).show();
                 break;
             case R.id.nav_exit:
@@ -130,4 +141,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         replaceFragment(fragment, this.title);
     }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Music.getInstance().stop();
+    }
 }
+

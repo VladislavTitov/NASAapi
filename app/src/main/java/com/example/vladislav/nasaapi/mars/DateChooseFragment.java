@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vladislav.nasaapi.ChangeFragmentListener;
@@ -27,8 +28,8 @@ public class DateChooseFragment extends Fragment {
     TextView tvDateStartMission;
     TextView tvDateFinishMission;
 
-    Button btnDateChoose;
-    Button btnShowPhotos;
+    TextView btnShowPhotos;
+    ImageView btnDateChoose;
 
     private int year, month, day;
 
@@ -76,15 +77,15 @@ public class DateChooseFragment extends Fragment {
         tvDateStartMission = (TextView) view.findViewById(R.id.tv_date_start_mission);
         tvDateFinishMission = (TextView) view.findViewById(R.id.tv_date_finish_mission);
 
-        btnDateChoose = (Button) view.findViewById(R.id.btn_date_choose);
+        btnDateChoose = (ImageView) view.findViewById(R.id.btn_date_choose);
         btnDateChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callDatePicker();
             }
         });
-
-        btnShowPhotos = (Button) view.findViewById(R.id.btn_show_photos);
+        
+        btnShowPhotos = (TextView) view.findViewById(R.id.btn_show_photos);
         btnShowPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +94,7 @@ public class DateChooseFragment extends Fragment {
                 args.putString("rover", rover);
                 args.putString("date", tvDateShow.getText().toString());
                 changeFragmentListener.changeFragment(fragmentClass, args);
+
             }
         });
 

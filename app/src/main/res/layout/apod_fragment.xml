@@ -27,6 +27,15 @@
 
         />
 
+    <WebView
+        android:id="@+id/video"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"/>
+
     <TextView
         android:theme="@style/titleStyle"
         android:id="@+id/copyright"

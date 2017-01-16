@@ -4,13 +4,19 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.example.vladislav.nasaapi.R;
@@ -27,6 +33,8 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
     TextView copyright;
     TextView title;
     TextView explanation;
+
+    WebView videoView;
 
     ApodReceiver apodReceiver;
 
@@ -59,6 +67,8 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
         copyright = (TextView) view.findViewById(R.id.copyright);
         title = (TextView) view.findViewById(R.id.title);
         explanation = (TextView) view.findViewById(R.id.explanation);
+
+        videoView = (WebView) view.findViewById(R.id.video);
 
         Intent intentService = new Intent(getActivity(), ApodIntentService.class);
         getActivity().startService(intentService);
@@ -96,12 +106,28 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
                     .load(intent.getStringExtra("photo"))
                     .error( R.drawable.space)
                     .into(photo);*/
+            if (intent.getStringExtra("mediatype") != null && intent.getStringExtra("mediatype").equals("video")){
 
-            Glide
-                    .with(getActivity())
-                    .load(intent.getStringExtra("photo"))
-                    .error(R.drawable.space)
-                    .into(photo);
+                photo.setVisibility(View.GONE);
+                videoView.setVisibility(View.VISIBLE);
+
+                /*videoView.setVideoURI(Uri.parse(intent.getStringExtra("photo")));
+
+                videoView.setMediaController(new MediaController(getActivity()));
+                videoView.requestFocus(0);*/
+
+                videoView.getSettings().setJavaScriptEnabled(true);
+                videoView.getSettings().setPluginState(WebSettings.PluginState.ON);
+                videoView.loadUrl(intent.getStringExtra("photo"));
+                videoView.setWebChromeClient(new WebChromeClient());
+
+            }else {
+                Glide
+                        .with(getActivity())
+                        .load(intent.getStringExtra("photo"))
+                        .error(R.drawable.space)
+                        .into(photo);
+            }
         }
 
     }

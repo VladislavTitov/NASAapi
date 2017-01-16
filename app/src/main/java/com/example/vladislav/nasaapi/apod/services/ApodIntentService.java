@@ -53,6 +53,7 @@ public class ApodIntentService extends IntentService {
                 apodPojo.setDate(dateString);
 
                 apodPojo.setUrl("");
+                apodPojo.setMediaType("audio");
                 apodPojo.setTitle("Error!");
                 apodPojo.setExplanation("Perhaps you are disconnected Internet!");
                 apodPojo.setCopyright("");
@@ -66,6 +67,7 @@ public class ApodIntentService extends IntentService {
 
         Intent intent1 = new Intent();
         intent1.putExtra("date", apodPojo.getDate());
+        intent1.putExtra("mediatype", apodPojo.getMediaType());
         intent1.putExtra("photo", apodPojo.getUrl());
         intent1.putExtra("title", apodPojo.getTitle());
         intent1.putExtra("copyright", apodPojo.getCopyright());

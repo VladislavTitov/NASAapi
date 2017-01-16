@@ -47,10 +47,7 @@ public class ApodIntentService extends IntentService {
             }else {
                 apodPojo = new ApodPojo();
 
-                long date = System.currentTimeMillis();
-                SimpleDateFormat sdf = new SimpleDateFormat("MMM MM dd");
-                String dateString = sdf.format(date);
-                apodPojo.setDate(dateString);
+                apodPojo.setDate("");
 
                 apodPojo.setUrl("");
                 apodPojo.setMediaType("audio");
@@ -66,12 +63,12 @@ public class ApodIntentService extends IntentService {
 
 
         Intent intent1 = new Intent();
-        intent1.putExtra("date", apodPojo.getDate());
-        intent1.putExtra("mediatype", apodPojo.getMediaType());
-        intent1.putExtra("photo", apodPojo.getUrl());
-        intent1.putExtra("title", apodPojo.getTitle());
-        intent1.putExtra("copyright", apodPojo.getCopyright());
-        intent1.putExtra("explanation", apodPojo.getExplanation());
+        intent1.putExtra("date", apodPojo != null ? apodPojo.getDate() : "");
+        intent1.putExtra("mediatype", apodPojo != null ? apodPojo.getMediaType() : "");
+        intent1.putExtra("photo", apodPojo != null ? apodPojo.getUrl() : "");
+        intent1.putExtra("title", apodPojo != null ? apodPojo.getTitle() : "Error!");
+        intent1.putExtra("copyright", apodPojo != null ? apodPojo.getCopyright() : "");
+        intent1.putExtra("explanation", apodPojo != null ? apodPojo.getExplanation() : "Perhaps you are disconnected Internet!");
         intent1.setAction(ApodFragment.ACTION_NAME_FOR_APOD_SERVICE);
         sendBroadcast(intent1);
 

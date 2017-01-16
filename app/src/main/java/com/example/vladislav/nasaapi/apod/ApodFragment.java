@@ -15,6 +15,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -35,6 +36,8 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
     TextView explanation;
 
     WebView videoView;
+
+    ProgressBar progressBar;
 
     ApodReceiver apodReceiver;
 
@@ -74,6 +77,9 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
         getActivity().startService(intentService);
 
         Log.d(ApodFragment.TAG, "onViewCreated after startService");
+
+        progressBar = (ProgressBar) view.getRootView().findViewById(R.id.progress);
+        progressBar.setVisibility(View.VISIBLE);
 
     }
 
@@ -128,6 +134,8 @@ public class ApodFragment extends Fragment implements ApodIntentServiceResult{
                         .error(R.drawable.space)
                         .into(photo);
             }
+
+            progressBar.setVisibility(View.GONE);
         }
 
     }

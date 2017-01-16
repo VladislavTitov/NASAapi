@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.example.vladislav.nasaapi.R;
@@ -30,6 +31,8 @@ public class PhotosShowFragment extends Fragment implements PhotosShowCallback{
 
     String rover;
     String date;
+
+    ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,15 @@ public class PhotosShowFragment extends Fragment implements PhotosShowCallback{
         photos.setAdapter(adapter);
         photos.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        progressBar = (ProgressBar) view.getRootView().findViewById(R.id.progress);
+        progressBar.setVisibility(View.VISIBLE);
+
     }
 
     @Override
     public void putPhotos(PhotosKeeper keeper) {
         adapter.setKeeper(keeper);
+        progressBar.setVisibility(View.GONE);
     }
 
     private PhotosGetFragment getPhotosGetFragment(){
